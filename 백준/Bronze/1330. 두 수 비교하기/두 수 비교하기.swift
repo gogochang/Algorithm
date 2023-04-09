@@ -1,15 +1,11 @@
 import Foundation
 
-let line = readLine()!
-let lineArr = line.components(separatedBy: " ")
+let input = readLine()!.components(separatedBy: " ").map{Int($0)!}
 
-let A = Int(lineArr[0])!
-let B = Int(lineArr[1])!
-
-if A > B {
+if input[0] > input[1] {
     print(">")
-} else if A < B {
+} else if input[0] < input[1] {
     print("<")
-} else if A == B {
+} else if input[0] == input[1] {
     print("==")
 }
