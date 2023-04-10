@@ -1,7 +1,6 @@
 var array: [Int] = []
 for _ in 1...9 {
-    let input = Int(readLine()!)!
-    array.append(input)
+    array.append(Int(readLine()!)!)
 }
 print(array.max()!)
 print(array.firstIndex(of: array.max()!)! + 1)
