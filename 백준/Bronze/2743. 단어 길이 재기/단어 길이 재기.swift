@@ -1,1 +1,1 @@
-print(readLine()!.map{$0}.count)
+print(readLine()!.count)
