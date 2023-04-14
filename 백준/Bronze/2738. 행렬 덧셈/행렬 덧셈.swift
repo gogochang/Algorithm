@@ -1,24 +1,18 @@
 let input = readLine()!.split(separator: " ").map { Int($0)! }
 let n = input[0], m = input[1]
-
-var matrixA: [[Int]] = []
-var matrixB: [[Int]] = []
-var answer = [[Int]](repeating: [Int](repeating: 0, count: m), count: n)
+var firstMatrix: [[Int]] = [], secondMatrix: [[Int]] = []
+var result = [[Int]](repeating: [Int](repeating: 0, count: m), count: n)
 for _ in 0..<n {
-    matrixA.append(readLine()!.split(separator: " ").map{ Int($0)! })
+    firstMatrix.append(readLine()!.split(separator: " ").map{ Int($0)! })
 }
 
 for _ in 0..<n {
-    matrixB.append(readLine()!.split(separator: " ").map{ Int($0)! })
+    secondMatrix.append(readLine()!.split(separator: " ").map{ Int($0)! })
 }
 
 for i in 0..<n {
     for j in 0..<m {
-        answer[i][j] = matrixA[i][j] + matrixB[i][j]
+        result[i][j] = firstMatrix[i][j] + secondMatrix[i][j]
     }
-
-}
-for i in 0..<n {
-    answer[i].forEach { print($0, terminator: " ") }
-    print()
+    print(result[i].map{String($0)}.joined(separator: " "))
 }
