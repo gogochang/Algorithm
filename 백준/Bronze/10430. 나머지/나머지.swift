@@ -1,12 +1,9 @@
-import Foundation
+let input = readLine()!.split(separator:" ").map { Int($0)! }
+let A = input[0]
+let B = input[1]
+let C = input[2]
 
-let line = readLine()!
-let lineArr = line.components(separatedBy: " ")
-
-let A = Int(lineArr[0])!
-let B = Int(lineArr[1])!
-let C = Int(lineArr[2])!
-print( (A + B) % C )
-print( ((A % C) + (B % C)) % C)
-print( (A * B) % C )
-print( ((A % C) * (B % C)) % C)
+print((A+B)%C)
+print(((A%C)+(B%C))%C)
+print((A*B)%C)
+print(((A%C)*(B%C))%C)
