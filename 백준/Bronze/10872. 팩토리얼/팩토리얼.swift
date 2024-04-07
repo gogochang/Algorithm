@@ -1,8 +1,6 @@
 let N = Int(readLine()!)!
 var result = 1
-if N >= 1 {
-    for i in 1...N {
-        result *= i
-    }
+for i in 0..<N {
+    result *= i + 1
 }
 print(result)
