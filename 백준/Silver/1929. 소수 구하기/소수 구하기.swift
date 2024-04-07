@@ -2,13 +2,13 @@ let input = readLine()!.split(separator: " ").map { Int($0)! }
 let M = input[0]
 let N = input[1]
 
+//var nums = Array(0...N)
+//nums[1] = 0
 
 var nums: [Int] = Array(repeating: 0, count: N + 1)
 for i in 2...N {
     nums[i] = i
 }
-
-//var nums = Array(0...N)
 for i in 2..<N {
     if nums[i] == 0 {
         continue
