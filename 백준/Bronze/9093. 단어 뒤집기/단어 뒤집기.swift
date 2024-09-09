@@ -1,15 +1,14 @@
-let T = Int(readLine()!)!
-var result: [String] = []
-
-(0..<T).forEach { _ in
-    let sentence = readLine()!.split(separator: " ").map { $0 }
-    var reversedSentence: String = ""
-    sentence.forEach {
-        reversedSentence += String($0.reversed())+" "
+let n = Int(readLine()!)!
+var results: [String] = []
+for _ in 0..<n {
+    let inputs = readLine()!.split(separator: " ").map { String($0) }
+    var result: String = ""
+    for input in inputs {
+        result.append(String(input.reversed()) + " ")
     }
-    result.append(reversedSentence)
+    results.append(result)
 }
 
-result.forEach {
+results.forEach {
     print($0)
 }
