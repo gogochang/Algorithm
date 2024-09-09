@@ -1,22 +1,19 @@
-import Foundation
+let n = Int(readLine()!)!
 
-let T = Int(readLine()!)!
-var arr: [String] = []
-
-(0..<T).forEach { _ in
-    arr.append(readLine()!)
-}
-
-arr.forEach {
-    var testCase = $0
-    while true {
-        testCase = testCase.replacingOccurrences(of: "()", with: "x")
+for _ in 0..<n {
+    let ps = readLine()!
+    var stack: [Character] = []
+    for s in ps {
+        if stack.isEmpty {
+            stack.append(s)
+            continue
+        }
         
-        if testCase.contains("x") {
-            testCase = testCase.replacingOccurrences(of: "x", with: "")
+        if s == ")" && stack.last! == "(" {
+            stack.removeLast()
         } else {
-            print(testCase.isEmpty ? "YES" : "NO")
-            break
+            stack.append(s)
         }
     }
+    print(stack.isEmpty ? "YES" : "NO")
 }
