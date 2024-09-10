@@ -1,25 +1,24 @@
-var left = readLine()!
+var left = Array(readLine()!)
 var right: [Character] = []
-let N = Int(readLine()!)!
+let n = Int(readLine()!)!
 
-(0..<N).forEach { _ in
-  let action = readLine()!
-  switch action {
-  case "L":
-    if !left.isEmpty {
-      right.append(left.removeLast())
+for _ in 0..<n {
+    let command = readLine()!
+    switch command {
+    case "L":
+        if left.isEmpty { break }
+        right.append(left.removeLast())
+        
+    case "D":
+        if right.isEmpty { break }
+        left.append(right.removeLast())
+
+    case "B":
+        if left.isEmpty { break }
+        left.removeLast()
+    default:
+        left.append(Character(String(command.last!)))
     }
-  case "D":
-    if !right.isEmpty {
-      left.append(right.removeLast())
-    }
-  case "B":
-    if !left.isEmpty {
-      left.removeLast()
-    }
-  default:
-    left.append(action.last!)
-  }
 }
 
-print(left + right.reversed())
+print(String(left+right.reversed()))
