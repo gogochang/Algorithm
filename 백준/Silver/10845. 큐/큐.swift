@@ -1,37 +1,55 @@
-var N = Int(readLine()!)!
-var results: [Int] = []
-var queue: [Int] = []
-(0..<N).forEach { _ in
-  let action = readLine()!
-  switch action {
-  case "pop":
-    if queue.isEmpty {
-      results.append(-1)
-    } else {
-      results.append(queue.removeFirst())
-    }
-  case "size":
-    results.append(queue.count)
-  case "empty":
-    results.append(queue.isEmpty ? 1 : 0)
-  case "front":
-    if queue.isEmpty {
-      results.append(-1)
-    } else {
-      results.append(queue.first ?? -1)
-    }
-  case "back":
-    if queue.isEmpty {
-      results.append(-1)
-    } else {
-      results.append(queue.last ?? -1)
-    }
-  default:
-    let num = action.split(separator: " ").map { Int($0) }[1]!
-    queue.append(num)
-  }
+enum Command: String {
+    case push, pop, size, empty, front, back
 }
 
-results.forEach {
-  print($0)
+struct Queue {
+    var queue: [Int] = []
+    
+    mutating func push(_ element: Int) {
+        queue.append(element)
+    }
+    
+    mutating func pop() -> Int {
+        if queue.isEmpty {
+            return -1
+        }
+        return queue.removeFirst()
+    }
+    
+    var size: Int {
+        queue.count
+    }
+    
+    var empty: Int {
+        queue.isEmpty ? 1 : 0
+    }
+    
+    var front: Int {
+        queue.first ?? -1
+    }
+    
+    var back: Int {
+        queue.last ?? -1
+    }
+}
+
+let n = Int(readLine()!)!
+var queue: Queue = Queue()
+for _ in 0..<n {
+    let input = readLine()!.split(separator: " ").map { String($0) }
+    let command = Command(rawValue: input[0])!
+    switch command {
+    case .push:
+        queue.push(Int(input[1])!)
+    case .pop:
+        print(queue.pop())
+    case .size:
+        print(queue.size)
+    case .empty:
+        print(queue.empty)
+    case .front:
+        print(queue.front)
+    case .back:
+        print(queue.back)
+    }
 }
