@@ -1,30 +1,25 @@
-let N = Int(readLine()!)!
-var sequence: [Int] = []
+let n = Int(readLine()!)!
+var current = 1
 var stack: [Int] = []
-var count: Int = 1
-var result: [String] = []
+var answer: [String] = []
 
-(0..<N).forEach { _ in
-    sequence.append(Int(readLine()!)!)
-}
-
-for i in 0..<sequence.count {
-    while count <= sequence[i] {
-        stack.append(count)
-        result.append("+")
-        count += 1
+for _ in 0..<n {
+    let inputNum = Int(readLine()!)!
+    
+    while current <= inputNum {
+        stack.append(current)
+        answer.append("+")
+        current += 1
     }
     
-    if stack.last == sequence[i] {
+    if stack.last == inputNum {
+        answer.append("-")
         stack.removeLast()
-        result.append("-")
     } else {
-        result.removeAll()
-        print("NO")
+        answer = ["NO"]
         break
     }
+    
 }
 
-result.forEach {
-    print($0)
-}
+answer.forEach { print($0) }
