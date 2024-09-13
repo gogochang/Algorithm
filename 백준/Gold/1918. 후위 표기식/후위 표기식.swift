@@ -1,59 +1,43 @@
-let line = readLine()!
-var stack: [Character] = []
-var result: [Character] = []
+let expression = readLine()!
+var result = [Character]()
+var stack = [Character]()
 
-func getPriority(op: Character) -> Int{
+func precedence(_ op: Character) -> Int {
     switch op {
-    case "+":
+    case "+","-":
         return 1
-    case "-":
-        return 1
-    case "*":
-        return 2
-    case "/":
+    case "*","/":
         return 2
     case "(":
         return 0
     default:
-        break
+        return -1
     }
-    return 0
 }
 
-for char in line {
-  if char.isLetter {
-    result.append(char)
-    continue
-  }
-  
-  if char == "(" {
-    stack.append(char)
-  } else if char == ")" {
-    
-    while true {
-      let item = stack.removeLast()
-      if item == "(" { break }
-      result.append(item)
+for char in expression {
+    if char.isLetter {
+        result.append(char)
+    } else if char == "(" {
+        stack.append(char)
+    } else if char == ")" {
+        // '('가 나올 때 까지 pop
+        while let top = stack.last, top != "(" {
+            result.append(stack.removeLast())
+        }
+        
+        stack.removeLast() // '('를 pop
+    } else { // '+', '-', '*', '/'
+        while let top = stack.last,
+              precedence(top) >= precedence(char) {
+            result.append(stack.removeLast())
+        }
+        stack.append(char)
     }
-  } else if stack.isEmpty
-              || getPriority(op: char) > getPriority(op: stack.last!) {
-    stack.append(char)
-  } else {
-    while !stack.isEmpty {
-      let temp = stack.last!
-      if getPriority(op: temp) >= getPriority(op: char) {
-        let data = stack.removeLast()
-        result.append(data)
-      } else {
-        break
-      }
-    }
-    stack.append(char)
-  }
 }
 
 while !stack.isEmpty {
     result.append(stack.removeLast())
 }
 
-print(String(result))
+print(result.map { String($0)}.joined(separator: ""))
