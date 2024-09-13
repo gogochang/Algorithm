@@ -1,35 +1,35 @@
 import Foundation
 
-let N = Int(readLine()!)!
-let postfix = readLine()!
-var numbers: [Double] = []
-var stack: [Double] = []
+let n = Int(readLine()!)!
+let expression = readLine()!
+var values = [Double]()
+var stack = [Double]()
 
-(0..<N).forEach { _ in
-  let value = Double(readLine()!)!
-  numbers.append(value)
+for _ in 0..<n {
+    values.append(Double(readLine()!)!)
 }
 
-for char in postfix {
-  if char == "*" {
-    let first = stack.removeLast()
-    let second = stack.removeLast()
-    stack.append(first * second)
-  } else if char == "+" {
-    let first = stack.removeLast()
-    let second = stack.removeLast()
-    stack.append(first + second)
-  } else if char == "/" {
-    let first = stack.removeLast()
-    let second = stack.removeLast()
-    stack.append(second/first)
-  } else if char == "-" {
-    let first = stack.removeLast()
-    let second = stack.removeLast()
-    stack.append(second-first)
-  } else {
-    stack.append(numbers[Int(char.asciiValue!)-65])
-  }
+for char in expression {
+    if char.isLetter {
+        let index = Int(char.asciiValue! - Character("A").asciiValue!)
+        stack.append(values[index])
+    } else {
+        let second = stack.removeLast()
+        let first = stack.removeLast()
+        
+        switch char {
+        case "+":
+            stack.append(first + second)
+        case "-":
+            stack.append(first - second)
+        case "*":
+            stack.append(first * second)
+        case "/":
+            stack.append(first / second)
+        default:
+            break
+        }
+    }
 }
 
-print(String(format: "%.2f", stack[0]))
+print(String(format: "%.2f", stack.first!))
