@@ -1,10 +1,10 @@
 var s = readLine()!
 var answer: [String] = []
-while !s.isEmpty {
-    answer.append(s)
-    s.removeFirst()
+
+for i in s.indices {
+    answer.append(String(s[i...]))
 }
 
-for char in answer.sorted() {
-    print(char)
+for suffix in answer.sorted() {
+    print(suffix)
 }
