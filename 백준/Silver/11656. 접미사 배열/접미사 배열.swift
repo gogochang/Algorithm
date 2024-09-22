@@ -5,7 +5,6 @@ while !s.isEmpty {
     s.removeFirst()
 }
 
-answer.sort()
-for char in answer {
+for char in answer.sorted() {
     print(char)
 }
