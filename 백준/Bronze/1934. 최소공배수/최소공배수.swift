@@ -1,27 +1,25 @@
-let T = Int(readLine()!)!
-var result: [Int] = []
-for _ in 0..<T {
-    let input = readLine()!.split(separator: " ").map { Int($0)! }.sorted(by: >)
-    if input.count < 2 {
-        continue
+// 최대공약수 (유클리드 호제법)
+func gcd(_ a: Int, _ b: Int) -> Int {
+    var a = a
+    var b = b
+    // b가 0이 될 때 까지 반복
+    while b != 0 {
+        let remainder = a%b
+        a = b
+        b = remainder
     }
-    func findGCD(_ a: Int, _ b: Int) -> Int {
-        var x = a
-        var y = b
-        while y != 0 {
-            let r = x % y
-            x = y
-            y = r
-        }
-        
-        return x
-    }
-    let gcd = findGCD(input[0], input[1])
-    let lcm = input[0] * input[1] / gcd
     
-    result.append(lcm)
+    return a
 }
 
-result.forEach {
-    print($0)
+// 최소공배수
+func lcm(_ a: Int, _ b: Int) -> Int {
+    return a * b / gcd(a, b)
 }
+
+let num = Int(readLine()!)!
+for _ in 0..<num {
+    let inputs = readLine()!.split(separator: " ").map { Int($0)! }
+    print(lcm(inputs[0], inputs[1]))
+}
+
