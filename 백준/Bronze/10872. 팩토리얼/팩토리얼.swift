@@ -1,6 +1,7 @@
-let N = Int(readLine()!)!
+let num = Int(readLine()!)!
 var result = 1
-for i in 0..<N {
-    result *= i + 1
+
+for n in 1...max(1,num) {
+    result *= n
 }
 print(result)
