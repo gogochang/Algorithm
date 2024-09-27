@@ -1,28 +1,25 @@
-private func GCD(_ m: Int, _ n: Int) -> Int {
-    if n==0 {
-        return m
-    } else {
-        return GCD(n, m%n)
+func gcd(_ a: Int, _ b: Int) -> Int {
+    var a = a
+    var b = b
+    while b != 0 {
+        let remainder = a % b
+        a = b
+        b = remainder
     }
+    return a
 }
 
-let NS = readLine()!.split(separator: " ").map { Int($0)! }
-let N = NS[0]
-let S = NS[1]
+let input = readLine()!.split(separator: " ").map { Int($0)! }
+let N = input[0] // 동생의 수
+let S = input[1] // 수빈이의 위치
 
-let Ai = readLine()!.split(separator: " ").map { Int($0)! }
+let locations = readLine()!.split(separator: " ").map {Int($0)!}
+var distances = locations.map { abs($0-S) } // 동생위치 - 수빈위치 를 절대값으로 저장
 
-var distance: [Int] = []
-for i in 0..<Ai.count {
-    distance.append(abs((S-Ai[i])))
+var result = distances[0]
+for i in 1..<distances.count {
+    result = gcd(result, distances[i])
 }
 
-var result = distance[0]
-for i in 0..<distance.count {
-    if result < distance[i] {
-        result = GCD(distance[i], result)
-    } else {
-        result = GCD(result,distance[i])
-    }
-}
 print(result)
+
