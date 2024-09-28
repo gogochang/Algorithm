@@ -1,18 +1,19 @@
-var octomal = readLine()!.map { Int(String($0))! }
+var binary: [String] = [ "000", "001", "010", "011", "100", "101", "110", "111" ]
+let nums = readLine()!.map { Int(String($0))! }
+var answer: String = ""
 
-private func convertBinary(_ num: Int) -> String {
-    return "\(num/4)\((num%4)/2)\((num%4)%2)"
+// 첫 번째 숫자는 앞의 '0'을 제거하여 처리
+answer += String(Int(binary[nums[0]])!)
+
+// 나머지 숫자들은 그대로 3자리 이진수로 처리
+for num in nums.dropFirst() {
+    answer += binary[num]
 }
 
-var result = ""
-for num in octomal {
-    result += convertBinary(num)
+// 빈 문자열이 되면 "0"을 출력
+if answer.isEmpty {
+    answer = "0"
 }
 
-if let firstOneIndex = result.firstIndex(of: "1") {
-    result = String(result[firstOneIndex...])
-} else {
-    result = "0"
-}
+print(answer)
 
-print(result)
