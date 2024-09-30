@@ -1,9 +1,13 @@
-var input = readLine()!.split(separator: " ").map{Int($0)!}
-var result = ""
+let digits = ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
 
-while input[0] != 0 {
-    let remainder = input[0] % input[1]
-    result.append(String(UnicodeScalar(remainder + (remainder >= 10 ? 55 : 48))!))
-    input[0] = input[0]/input[1]
+let input = readLine()!.split(separator: " ").map { Int($0)! }
+var N = input[0]
+let B = input[1]
+var result: [String] = []
+
+while N != 0 {
+    result.append(digits[N % B])
+    N = N / B
 }
-print(String(result.reversed()))
+
+print(result.reversed().joined(separator: ""))
