@@ -1,24 +1,16 @@
-func minusTwoBinary(_ n: Int) -> String {
-    if n == 0 {
-        return "0"
+var num = Int(readLine()!)!
+var result: String = ""
+
+while num != 0 {
+    var remainder = num % -2
+    num = num / -2
+    
+    if remainder < 0 {
+        num += 1
+        remainder += 2
     }
-
-    var number = n
-    var result = ""
-
-    while number != 0 {
-        var remainder = number % -2
-        number /= -2
-
-        if remainder < 0 {
-            remainder += 2
-            number += 1
-        }
-
-        result = "\(remainder)" + result
-    }
-
-    return result
+    
+    result = "\(remainder)" + result
 }
 
-print(minusTwoBinary(Int(readLine()!)!))
+print(result.isEmpty ? "0" : result)
