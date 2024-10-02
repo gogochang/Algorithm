@@ -1,40 +1,37 @@
 import Foundation
 
-func primeNums(num: Int) -> [Int] {
-    var arr = Array(0...num)
-    var count = Int(sqrt(Double(num))) + 1
-    arr[1] = 0
-    for i in 2..<count {
-        if arr[i] != 0 {
-            var idx = 2
-            while idx * i <= num {
-                arr[idx * i] = 0
-                idx += 1
-            }
-        }
-    }
-    return arr
-}
-
-let n = Int(readLine()!)!
-var results: [Int] = []
-for _ in 0..<n {
-    let num = Int(readLine()!)!
-    var set = primeNums(num: num)
-    var result = 0
+// 에라토스테네스의 체를 이용해 소수를 출력합니다.
+func sieveOfEratosthenes(limit: Int) -> [Bool] {
+    var isPrime = Array(repeating: true, count: limit+1)
+    // 0과 1은 소수가 아니므로 false로 설정
+    isPrime[0] = false
+    isPrime[1] = false
     
-    for j in 2...num/2 {
-        let sub = num - j
-        if set[j] != 0 {
-            if set[sub] != 0 {
-                result += 1
+    for i in 2...limit {
+        if isPrime[i] {
+            for multiple in stride(from: i*i, through: limit, by: i) {
+                isPrime[multiple] = false
             }
         }
     }
-//    print(result)
-    results.append(result)
+    
+    return isPrime
 }
 
-results.forEach { num in
-    print(num)
+let maxLimit = 1000000
+let isPrime = sieveOfEratosthenes(limit: maxLimit)
+
+let T = Int(readLine()!)!
+for _ in 0..<T {
+    let n = Int(readLine()!)!
+    var count = 0
+    
+    // 3부터 시작해서 두 소수의 합으로 n을 표현할 수 있는지 확인
+    for i in 2...(n/2) {
+        if isPrime[i], isPrime[n - i] {
+            count += 1
+        }
+    }
+    
+    print(count)
 }
