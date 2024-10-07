@@ -5,32 +5,18 @@ var dp = Array(repeating: [0,0,0,0,0,0,0,0,0,0], count: 101)
 dp[1] = [0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
 let n = Int(readLine()!)!
-
-//for i in 2...n {
-//    for j in 0...9 {
-//        if j == 0 {
-//            dp[i][j] = dp[i-1][j+1] % mod
-//        } else if j == 9 {
-//            dp[i][j] = dp[i-1][j-1] % mod
-//        } else {
-//            dp[i][j] = (dp[i-1][j+1] + dp[i-1][j-1]) % mod
-//        }
-//        
-//    }
-//}
-
-if n > 1 {
+if n > 1{
     for i in 2...n {
         for j in 0...9 {
             if j == 0 {
-                dp[i][0] = dp[i-1][1] % mod
+                dp[i][j] = dp[i-1][j+1] % mod
             } else if j == 9 {
-                dp[i][9] = dp[i-1][8] % mod
+                dp[i][j] = dp[i-1][j-1] % mod
             } else {
-                dp[i][j] = (dp[i-1][j-1] + dp [i-1][j+1]) % mod
+                dp[i][j] = (dp[i-1][j+1] + dp[i-1][j-1]) % mod
             }
+            
         }
     }
 }
-
 print((dp[n].reduce(0) { $0+$1 }) % mod)
