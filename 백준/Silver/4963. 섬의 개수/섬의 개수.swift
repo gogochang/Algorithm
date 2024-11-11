@@ -25,9 +25,10 @@ while true {
         (-1, 1), (0, 1), (1, 1)
     ]
     
-    var result = [Int]()
+    // 섬의 개수를 담는 변수
+    var isLandCount = 0
     
-    func dfs(_ x: Int, _ y: Int) -> Int {
+    func dfs(_ x: Int, _ y: Int) {
         visited[y][x] = true
         var count = 1
         
@@ -41,23 +42,22 @@ while true {
             if nx >= 0 && nx < w && ny >= 0 && ny < h { // 조건1
                 if !visited[ny][nx] { // 조건2
                     if map[ny][nx] == 1 {
-                        count += dfs(nx, ny)
+                        dfs(nx, ny)
                     }
                 }
             }
         }
-        return count
     }
     
     for i in 0..<w {
         for j in 0..<h {
             if !visited[j][i], map[j][i] == 1 {
-                let landCount = dfs(i, j)
-                result.append(landCount)
+                dfs(i, j)
+                isLandCount += 1
             }
         }
     }
     
-    print(result.count)
+    print(isLandCount)
     
 }
