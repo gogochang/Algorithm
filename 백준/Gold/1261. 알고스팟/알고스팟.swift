@@ -1,15 +1,3 @@
-import Foundation
-
-struct Position: Comparable {
-    let x: Int
-    let y: Int
-    let brokenWalls: Int
-    
-    static func < (lhs: Position, rhs: Position) -> Bool {
-        return lhs.brokenWalls < rhs.brokenWalls
-    }
-}
-
 let directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
 // 입력 받기
