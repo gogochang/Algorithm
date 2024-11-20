@@ -1,44 +1,71 @@
-func bfs(N: Int, K: Int) -> Int {
-    if N == K {
-        return 0
+struct Queue {
+    private var inbox: [Int] = []
+    private var outbox: [Int] = []
+    
+    mutating func push(_ value: Int) {
+        inbox.append(value)
     }
     
-    let maxPosition: Int = 100000
-    var visited: [Bool] = [Bool](repeating: false, count: maxPosition + 1)
-    var queue = [(position: Int, time: Int)]()
-    queue.append((N, 0))
-    visited[N] = true
-    
-    while !queue.isEmpty {
-        let current = queue.removeFirst()
-        let currentPosition = current.position
-        let currentTime = current.time
-        
-        let nextPositions = [
-            currentPosition - 1,
-            currentPosition + 1,
-            currentPosition * 2
-        ]
-        
-        for nextPosition in nextPositions {
-            if nextPosition == K {
-                return currentTime + 1
-            }
-            
-            if nextPosition >= 0 &&
-                nextPosition <= maxPosition &&
-                !visited[nextPosition] {
-                visited[nextPosition] = true
-                queue.append((position: nextPosition, time: currentTime + 1))
-            }
+    mutating func pop() -> Int? {
+        if outbox.isEmpty {
+            outbox = inbox.reversed()
+            inbox.removeAll()
         }
+        return outbox.popLast()
     }
     
-    return -1
+    func empty() -> Bool {
+        return inbox.isEmpty && outbox.isEmpty
+    }
 }
 
 let NK = readLine()!.split(separator: " ").map { Int($0)! }
 let N = NK[0]
 let K = NK[1]
-let result = bfs(N: N, K: K)
-print(result)
+let maxPosition = 100000
+
+var queue = Queue()
+var visited = [Bool](repeating: false, count: maxPosition + 1)
+
+if N == K {
+    print(0)
+} else {
+    queue.push(N)
+    visited[N] = true
+
+    var time = [Int](repeating: 0, count: maxPosition + 1)
+
+    while !queue.empty() {
+        let current = queue.pop()!
+        
+        // 순간이동
+        let teleport = current * 2
+        if teleport <= maxPosition && !visited[teleport] {
+            visited[teleport] = true
+            time[teleport] = time[current] + 1
+            queue.push(teleport)
+        }
+        
+        // 앞으로 이동
+        let forward = current + 1
+        if forward <= maxPosition && !visited[forward] {
+            visited[forward] = true
+            time[forward] = time[current] + 1
+            queue.push(forward)
+        }
+        
+        // 뒤로 이동
+        let backward = current - 1
+        if backward >= 0 && !visited[backward] {
+            visited[backward] = true
+            time[backward] = time[current] + 1
+            queue.push(backward)
+        }
+
+        // 목표에 도달한 경우 탐색 종료
+        if time[K] > 0 {
+            print(time[K])
+            break
+        }
+    }
+}
