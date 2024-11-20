@@ -1,57 +1,76 @@
+// Queue
 struct Queue {
-    var que: [Int] = []
+    private var inbox: [Int] = []
+    private var outbox: [Int] = []
+                              
     mutating func push(_ x: Int) {
-        que.append(x)
+        inbox.append(x)
     }
-    mutating func pop() -> Int {
-        que.reverse()
-        if let a = que.popLast() {
-            que.reverse()
-            return a
+    
+    mutating func pop() -> Int? {
+        if outbox.isEmpty {
+            outbox = inbox.reversed()
+            inbox.removeAll()
         }
-        return 0
+        return outbox.popLast()
     }
+    
     func empty() -> Bool {
-        return que.isEmpty
+        return inbox.isEmpty && outbox.isEmpty
     }
+    
     func size() -> Int {
-        return que.count
+        return inbox.count + outbox.count
     }
 }
 
+// BFS
 func bfs(_ N: Int, _ K: Int) -> Int {
-    var queue = Queue()
-    queue.push(N)
-
-    var visited: [Bool] = Array(repeating: false, count: 100002)
-    var depth: [Int] = Array(repeating: 0, count: 100002)
-
+    
     while !queue.empty() {
-        let data = queue.pop()
-        if data == K {  // 해당하는 값 찾으면 종료
+        let current = queue.pop()!
+        if current == K {
             break
         }
-        if data * 2 < 100001 && !visited[data * 2] {    // *2 한 값이 범위 안에 들어오면 큐에 추가 및 방문, depth 결정
-            queue.push(data * 2)
-            visited[data * 2] = true
-            depth[data * 2] = depth[data]
+        
+        // 순간이동
+        let teleport = current * 2
+        if teleport <= maxPosition && !visited[teleport] {
+            queue.push(teleport)
+            visited[teleport] = true
+            time[teleport] = time[current]
         }
-        if data - 1 >= 0 && !visited[data - 1] {    // -1 한 값이 범위 안에 들어오면 큐에 추가 및 방문, depth 결정
-            queue.push(data - 1)
-            visited[data - 1] = true
-            depth[data - 1] = depth[data] + 1
+        
+        // 뒤로 이동
+        let backward = current - 1
+        if backward >= 0 && !visited[backward] {
+            queue.push(backward)
+            visited[backward] = true
+            time[backward] = time[current] + 1
         }
-        if data + 1 < 100001 && !visited[data + 1] {    // +1 한 값이 범위 안에 들어오면 큐에 추가 및 방문, depth 결정
-            queue.push(data + 1)
-            visited[data + 1] = true
-            depth[data + 1] = depth[data] + 1
+        
+        // 앞으로 이동
+        let forward = current + 1
+        if forward <= maxPosition && !visited[forward] {
+            queue.push(forward)
+            visited[forward] = true
+            time[forward] = time[current] + 1
         }
-
     }
-    return depth[K]
+    
+    return time[K]
 }
 
-let input = readLine()!.split(separator: " ").map { Int($0)! }
-let (N, K) = (input[0], input[1])
-let result = bfs(N, K)
-print(result)
+let NK = readLine()!.split(separator: " ").map { Int($0)! }
+let N = NK[0]
+let K = NK[1]
+let maxPosition = 100000
+
+var queue = Queue()
+queue.push(N)
+
+var visited = [Bool](repeating: false, count: maxPosition + 1)
+
+var time = [Int](repeating: 0, count: maxPosition + 1)
+
+print(bfs(N,K))
