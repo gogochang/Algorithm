@@ -55,10 +55,7 @@ func calculateTetrominoScore(_ x: Int, _ y: Int, _ shape: [(Int,Int)] ) {
         
         score += map[nx][ny]
     }
-    
-    if score > maxScore {
-        maxScore = score
-    }
+    maxScore = max(maxScore, score)
 }
 
 for i in 0..<n {
