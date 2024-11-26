@@ -1,13 +1,14 @@
-let input = readLine()!.split(separator: " ").map { Int($0)! }
-let n = input[0]
-let m = input[1]
-var grid = [[Int]]()
+let nm = readLine()!.split(separator: " ").map { Int($0)! }
+let n = nm[0]
+let m = nm[1]
 
+// 맵
+var map = [[Int]]()
 for _ in 0..<n {
-    grid.append(readLine()!.split(separator: " ").map { Int($0)! })
+    map.append(readLine()!.split(separator: " ").map{ Int($0)! })
 }
 
-let tetrominos = [
+let tetrominoes = [
     [(0,0), (0,1), (0,2), (0,3)], // ----
     [(0,0), (1,0), (2,0), (3,0)], // |
     
@@ -35,31 +36,37 @@ let tetrominos = [
     [(0,0), (1,0), (1,1), (2,0)], // ㅏ
 ]
 
-func isInBounds(_ x: Int, _ y: Int) -> Bool {
+
+var maxScore = 0
+
+func isValid(_ x: Int, _ y: Int) -> Bool {
     return x >= 0 && x < n && y >= 0 && y < m
 }
 
-var maxSum = 0
+func calculateTetrominoScore(_ x: Int, _ y: Int, _ shape: [(Int,Int)] ) {
+    var score = 0
+    
+    for (dx, dy) in shape {
+        let nx = x + dx
+        let ny = y + dy
+        if !isValid(nx, ny) {
+            return
+        }
+        
+        score += map[nx][ny]
+    }
+    
+    if score > maxScore {
+        maxScore = score
+    }
+}
 
 for i in 0..<n {
     for j in 0..<m {
-        for tetromino in tetrominos {
-            var sum = 0
-            var valid = true
-            for block in tetromino {
-                let nx = i + block.0
-                let ny = j + block.1
-                if !isInBounds(nx, ny) {
-                    valid = false
-                    break
-                }
-                
-                sum += grid[nx][ny]
-            }
-            if valid {
-                maxSum = max(maxSum, sum)
-            }
+        for shape in tetrominoes {
+            calculateTetrominoScore(i,j, shape)
         }
     }
 }
-print(maxSum)
+
+print(maxScore)
