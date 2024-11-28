@@ -1,5 +1,4 @@
-
-// 이진 탐색 함수
+// 이진 트리 탐색 함수
 func binarySearch(_ array: [Int], _ target: Int) -> Bool {
     var left = 0
     var right = array.count - 1
@@ -18,15 +17,14 @@ func binarySearch(_ array: [Int], _ target: Int) -> Bool {
     return false
 }
 
-// 입력 받기
 let n = Int(readLine()!)!
-var nArray = readLine()!.split(separator: " ").map { Int($0)! }.sorted()
+let nArr = readLine()!.split(separator: " ").map { Int($0)! }.sorted()
 let m = Int(readLine()!)!
-var mArray = readLine()!.split(separator: " ").map { Int($0)! }
+let mArr = readLine()!.split(separator: " ").map { Int($0)! }
 
 var result = ""
-for target in mArray {
-    result += binarySearch(nArray, target) ? "1\n" : "0\n"
+for mNum in mArr {
+    result += binarySearch(nArr,mNum) ? "1\n" : "0\n"
 }
 
 print(result)
