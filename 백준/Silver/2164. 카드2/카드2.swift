@@ -1,55 +1,46 @@
-struct Deque<T> {
-    private var front: [T] = []
-    private var back: [T] = []
+struct Queue<T> {
+    private var inbox: [T] = []
+    private var outbox: [T] = []
     
     var isEmpty: Bool {
-        return front.isEmpty && back.isEmpty
+        return inbox.isEmpty && outbox.isEmpty
     }
     
     var size: Int {
-        return front.count + back.count
+        return inbox.count + outbox.count
     }
     
-    mutating func pushFront(_ value: T) {
-        front.append(value)
-    }
-    
-    mutating func pushBack(_ value: T) {
-        back.append(value)
+    mutating func push(_ value: T) {
+        inbox.append(value) // 뒤에서 추가
     }
     
     @discardableResult
-    mutating func popFront() -> T? {
-        if front.isEmpty {
-            front = back.reversed()
-            back.removeAll()
+    mutating func pop() -> T? {
+        if outbox.isEmpty {
+            outbox = inbox.reversed() // inbox의 데이터를 뒤집어 outbox로 이동
+            inbox.removeAll()
         }
-        return front.popLast()
+        return outbox.popLast() // 앞에서 제거
     }
     
-    @discardableResult
-    mutating func popBack() -> T? {
-        if back.isEmpty {
-            back = front.reversed()
-            front.removeAll()
-        }
-        return back.popLast()
+    func peek() -> T? {
+        return outbox.isEmpty ? inbox.first : outbox.last
     }
 }
 
 let n = Int(readLine()!)!
-var deque = Deque<Int>()
+var queue = Queue<Int>()
 
 for i in 1...n {
-    deque.pushBack(i)
+    queue.push(i)
 }
 
-while deque.size != 1 {
-    deque.popFront()
-    if let num = deque.popFront() {
-        deque.pushBack(num)
+while queue.size != 1 {
+    queue.pop()
+    if let num = queue.pop() {
+        queue.push(num)
     }
 }
 
-print(deque.popFront()!)
+print(queue.pop()!)
 
