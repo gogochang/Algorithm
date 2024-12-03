@@ -1,4 +1,4 @@
-struct Heap<T> where T: Comparable {
+struct Heap<T> {
     private var elements: [T] = []
     private let sortCriteria: (T, T) -> Bool
     
