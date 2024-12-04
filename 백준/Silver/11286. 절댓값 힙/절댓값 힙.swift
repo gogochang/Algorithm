@@ -1,23 +1,22 @@
 struct Heap<T> {
     private var elements: [T] = []
-    private let sortCriteria: (T, T) -> Bool
+    private let sortFunction: (T, T) -> Bool
     
     init(sort: @escaping (T, T) -> Bool) {
-        self.sortCriteria = sort
+        self.sortFunction = sort
     }
     
     var isEmpty: Bool {
         return elements.isEmpty
     }
     
-    var count: Int {
+    var size: Int {
         return elements.count
     }
     
     mutating func insert(_ value: T) {
         elements.append(value)
         shiftUp(from: elements.count - 1)
-        
     }
     
     mutating func remove() -> T? {
@@ -37,7 +36,7 @@ struct Heap<T> {
         let childValue = elements[child]
         var parent = (child - 1) / 2
         
-        while child > 0 && sortCriteria(childValue, elements[parent]) {
+        while child > 0 && sortFunction(childValue, elements[parent]) {
             elements.swapAt(child, parent)
             child = parent
             parent = (child - 1) / 2
@@ -53,11 +52,11 @@ struct Heap<T> {
             let right = left + 1
             var candidate = parent
             
-            if left < count && sortCriteria(elements[left], elements[candidate]) {
+            if left < count && sortFunction(elements[left], elements[candidate]) {
                 candidate = left
             }
             
-            if right < count && sortCriteria(elements[right], elements[candidate]) {
+            if right < count && sortFunction(elements[right], elements[candidate]) {
                 candidate = right
             }
             
@@ -78,7 +77,6 @@ var heap = Heap<Int> {
         return false
     }
 }
-
 
 let n = Int(String(readLine()!))!
 var result = ""
