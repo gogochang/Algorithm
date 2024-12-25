@@ -1,33 +1,24 @@
-import Foundation
-
 let n = Int(readLine()!)!
-var map = [[Int]]()
-
-var maxHeight = 0
-
+var grid: [[Int]] = []
+var maxNum = 0
 for _ in 0..<n {
     let row = readLine()!.split(separator: " ").map { Int($0)! }
-    maxHeight = max(maxHeight, row.max()!)
-    map.append(row)
+    maxNum = max(maxNum, row.max()! )
+    grid.append(row)
 }
+let directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
-let directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
 
-func isValid(_ x: Int, _ y: Int) -> Bool {
-    return x >= 0 && x < n && y >= 0 && y < n
-}
-
-func dfs(_ x: Int, _ y: Int, _ visited: inout [[Bool]], _ height: Int) {
-    var stack = [(x, y)]
+func dfs(x: Int, y: Int, target: Int, visited: inout [[Bool]]) {
     visited[x][y] = true
     
-    while !stack.isEmpty {
-        let (cx, cy) = stack.removeLast()
-        for (dx, dy) in directions {
-            let nx = cx + dx, ny = cy + dy
-            if isValid(nx, ny) && !visited[nx][ny] && map[nx][ny] > height {
-                visited[nx][ny] = true
-                stack.append((nx, ny))
+    for (dx, dy) in directions {
+        let nx = x + dx
+        let ny = y + dy
+        
+        if nx >= 0 && ny >= 0 && nx < n && ny < n {
+            if grid[nx][ny] > target && !visited[nx][ny] {
+                dfs(x: nx, y: ny, target: target, visited: &visited)
             }
         }
     }
@@ -35,18 +26,19 @@ func dfs(_ x: Int, _ y: Int, _ visited: inout [[Bool]], _ height: Int) {
 
 var maxSafeAreas = 0
 
-for height in 0...maxHeight {
-    var visited = Array(repeating: Array(repeating: false, count: n), count: n)
+for target in 0...maxNum {
+    var visited: [[Bool]] = Array(repeating: Array(repeating: false, count: n), count: n)
     var safeAreas = 0
     
     for i in 0..<n {
         for j in 0..<n {
-            if !visited[i][j] && map[i][j] > height {
-                dfs(i, j, &visited, height)
+            if grid[i][j] > target && !visited[i][j] {
                 safeAreas += 1
+                dfs(x: i, y: j, target: target, visited: &visited)
             }
         }
     }
+    
     maxSafeAreas = max(maxSafeAreas, safeAreas)
 }
 
