@@ -46,7 +46,7 @@ func bfs() -> Int {
                     }
                 } else if grid[ny][nx] == 1 {
                     // 벽을 부수고 이동
-                    if !wallBroken {
+                    if !wallBroken && !visited[ny][nx][1] {
                         visited[ny][nx][1] = true
                         queue.append((ny, nx, distance + 1, true))
                     }
