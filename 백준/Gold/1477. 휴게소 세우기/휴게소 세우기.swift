@@ -5,20 +5,26 @@ let l = input[2] // 고속도로의 길이
 var restStops = readLine()!.split(separator: " ").map { Int($0)! } + [0, l]
 restStops.sort()
 
-func calculateNum(targetDistance: Int) -> Int {
-    restStops.enumerated().dropFirst().reduce(0) {
-        let distance = restStops[$1.offset] - restStops[$1.offset - 1]
-        return $0 + (distance / targetDistance) - (distance % targetDistance == 0 ? 1 : 0)
-    }
-}
-
 var left = 1
 var right = l
 var result = right
 
+func calculateNum(_ mid: Int) -> Int {
+    var count = 0
+    for i in 1..<restStops.count {
+        let distance = restStops[i] - restStops[i-1]
+        count += (distance / mid)
+        if distance % mid == 0 {
+            count -= 1
+        }
+    }
+    return count
+}
+
+
 while left <= right {
     let mid = (left + right) / 2
-    let currentCount = calculateNum(targetDistance: mid)
+    let currentCount = calculateNum(mid)
     
     if currentCount <= m {
         result = mid
