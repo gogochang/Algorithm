@@ -1,15 +1,18 @@
-import Foundation
+let input = readLine()!.split(separator: " ").map { Int($0)! }
+let n = input[0]
+let m = input[1]
+let arr = readLine()!.split(separator: " ").map { Int($0)! }
 
-func canDivide(_ array: [Int], _ maxDifference: Int, _ m: Int) -> Bool {
+func canDivide(distance: Int) -> Bool {
     var count = 1
-    var minValue = array[0]
-    var maxValue = array[0]
+    var minValue = arr[0]
+    var maxValue = arr[0]
     
-    for num in array {
+    for num in arr {
         minValue = min(minValue, num)
         maxValue = max(maxValue, num)
         
-        if maxValue - minValue > maxDifference {
+        if maxValue - minValue > distance {
             count += 1
             minValue = num
             maxValue = num
@@ -19,32 +22,20 @@ func canDivide(_ array: [Int], _ maxDifference: Int, _ m: Int) -> Bool {
     return count <= m
 }
 
-func findMinimumMaxDifference(_ array: [Int], _ m: Int) -> Int {
-    var left = 0
-    var right = array.max()! - array.min()!
-    var result = right
+var left = 0
+var right = arr.max()! - arr.min()!
+var result = right
+
+while left <= right {
+    let mid = (left + right) / 2
     
-    while left <= right {
-        let mid = (left + right) / 2
-        
-        if canDivide(array, mid, m) {
-            result = mid
-            right = mid - 1
-        } else {
-            left = mid + 1
-        }
+    if canDivide(distance: mid) {
+        result = mid
+        right = mid - 1
+    } else {
+        left = mid + 1
     }
     
-    return result
 }
 
-// 입력 처리
-if let firstLine = readLine(), let secondLine = readLine() {
-    let nM = firstLine.split(separator: " ").map { Int($0)! }
-    let n = nM[0]
-    let m = nM[1]
-    let array = secondLine.split(separator: " ").map { Int($0)! }
-    
-    let result = findMinimumMaxDifference(array, m)
-    print(result)
-}
+print(result)
