@@ -1,6 +1,6 @@
-let n = Int(readLine()!)! // 전체 사람의 수
+let n = Int(readLine()!)!
 let target = readLine()!.split(separator: " ").map { Int($0)! }
-let m = Int(readLine()!)! // 부모자식 관계의 수
+let m = Int(readLine()!)!
 
 var graph = [[Int]](repeating: [], count: n + 1)
 var visited = [Bool](repeating: false, count: n + 1)
@@ -15,7 +15,7 @@ for _ in 0..<m {
 
 func bfs(start: Int, target: Int) -> Int {
     var queue = [(node: Int, depth: Int)]()
-    queue.append((start,0))
+    queue.append((start, 0))
     visited[start] = true
     
     while !queue.isEmpty {
@@ -27,15 +27,14 @@ func bfs(start: Int, target: Int) -> Int {
             return currentDepth
         }
         
-        
-        for neighbor in graph[currentNode] {
-            if !visited[neighbor] {
-                visited[neighbor] = true
-                queue.append((neighbor, currentDepth + 1))
+        for negihbor in graph[currentNode] {
+            if !visited[negihbor] {
+                visited[negihbor] = true
+                queue.append((negihbor, currentDepth + 1))
             }
         }
     }
-    
+        
     return -1
 }
 
